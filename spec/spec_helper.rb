@@ -10,7 +10,7 @@ require "database_cleaner"
 require "prevent_destroy_if_any"
 
 ActiveRecord::Base.configurations = { 'test' => { :adapter => 'sqlite3', :database => ':memory:' } }
-ActiveRecord::Base.establish_connection('test')
+ActiveRecord::Base.establish_connection(:test)
 
 class Person < ActiveRecord::Base
   belongs_to :user
@@ -37,7 +37,7 @@ class Log < ActiveRecord::Base
   belongs_to :person
 end
 
-ActiveRecord::Base.silence do
+ActiveRecord::Base.silence(:stdout) do
   ActiveRecord::Migration.verbose = false
   ActiveRecord::Schema.define :version => 0 do
     create_table(:people)          { |t| t.string :name; t.integer :user_id }
