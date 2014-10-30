@@ -28,7 +28,7 @@ describe "prevent_destroy_if_any" do
       person.projects.create
       person.create_public_profile
       person.destroy
-      expect(person.errors[:base].first).to eq I18n.t('messages.cannot_delete_parent_object',
+      expect(person.errors[:base].first).to eq I18n.t('prevent_destroy_if_any.messages.cannot_delete_parent_object',
           :parent_object => 'person',
           :associated_objects => 'projects, public profile'
         )
