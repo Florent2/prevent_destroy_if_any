@@ -9,33 +9,35 @@ describe "prevent_destroy_if_any" do
     it "destroy preventing works for has_many association" do
       person.projects.create
       person.destroy
-      person.destroyed?.should be_false
+      expect(person.destroyed?).to be_falsey
     end
 
     it "destroy preventing works for has_one association" do
       person.create_public_profile
       person.destroy
-      person.destroyed?.should be_false
+      expect(person.destroyed?).to be_falsey
     end
 
     it "destroy preventing works for belongs_ association" do
       person.create_user
       person.destroy
-      person.destroyed?.should be_false
+      expect(person.destroyed?).to be_falsey
     end
 
     it "adds an error message" do
       person.projects.create
       person.create_public_profile
       person.destroy
-      person.errors[:base].first.should == "Cannot delete person while projects, public_profile exist"
+      expect(person.errors[:base].first).to eq I18n.t('messages.cannot_delete_parent_object',
+          :parent_object => 'person',
+          :associated_objects => 'projects, public profile'
+        )
     end
-
 
     it "does not prevent the destroy if the association is not listed as preventing the destroy" do
       person.logs.create
       person.destroy
-      person.destroyed?.should be_true
+      expect(person.destroyed?).to be_truthy
     end
   end
 
@@ -43,7 +45,7 @@ describe "prevent_destroy_if_any" do
 
     it "does not prevent the destroy" do
       person.destroy
-      person.destroyed?.should be_true
+      expect(person.destroyed?).to be_truthy
     end
 
   end

@@ -1,24 +1,30 @@
-require "prevent_destroy_if_any/version"
+require 'prevent_destroy_if_any/version'
 
 class ActiveRecord::Base
   def self.prevent_destroy_if_any(*association_names)
     before_destroy do |model|
-      associations_present = []
-
+      available_associations = []
       association_names.each do |association_name|
         association = model.send association_name
-        if association.class == Array
-          associations_present << association_name if association.any?
-        else
-          associations_present << association_name if association
+        unless association.blank?
+          available_associations << if association.is_a?(ActiveRecord::Associations::CollectionProxy)
+            association.first.class.model_name.human(:count => 2)
+          else
+            association.class.model_name.human
+          end.downcase
         end
       end
-
-      if associations_present.any?
-        errors.add :base, "Cannot delete #{model.class.model_name.human.downcase} while #{associations_present.join ', '} exist"
-        return false
+      if available_associations.any?
+        errors.add(
+          :base,
+          I18n.t(
+            'prevent_destroy_if_any.messages.cannot_delete_parent_object',
+            :parent_object => model.class.model_name.human.downcase,
+            :associated_objects => available_associations.join(', ')
+          )
+        )
+        false
       end
-
     end
   end
 end
