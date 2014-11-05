@@ -1,4 +1,5 @@
 require 'prevent_destroy_if_any/version'
+I18n.load_path += Dir[File.expand_path(File.dirname(__FILE__)) + "/../config/locales/*.yml"]
 
 class ActiveRecord::Base
   def self.prevent_destroy_if_any(*association_names)

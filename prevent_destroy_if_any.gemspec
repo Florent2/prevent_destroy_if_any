@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "activerecord", '>= 3.0.0'
+  s.add_dependency "i18n"
   s.add_development_dependency "bundler", '>= 1.0.0'
   s.add_development_dependency "rspec", '>= 0'
   s.add_development_dependency "database_cleaner", '>= 0'
