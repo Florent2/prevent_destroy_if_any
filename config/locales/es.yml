@@ -1,0 +1,4 @@
+es:
+  prevent_destroy_if_any:
+    messages:
+      cannot_delete_parent_object: "No se puede eliminar %{parent_object} mientras %{associated_objects} exista"

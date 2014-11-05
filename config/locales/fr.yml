@@ -1,0 +1,4 @@
+fr:
+  prevent_destroy_if_any:
+    messages:
+      cannot_delete_parent_object: "Suppression de %{parent_object} impossible car il y a %{associated_objects}"
