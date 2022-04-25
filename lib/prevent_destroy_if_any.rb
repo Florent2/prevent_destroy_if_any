@@ -24,7 +24,7 @@ class ActiveRecord::Base
             :associated_objects => available_associations.join(', ')
           )
         )
-        false
+        throw :abort
       end
     end
   end
